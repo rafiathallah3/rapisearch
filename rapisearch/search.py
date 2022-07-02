@@ -27,6 +27,7 @@ def searchgoogle(q: str, hl: str = "en", gl: str = "us", allow_to_get_answer: bo
         hl (str, optional): Change google search language. Defaults to "en".
         gl (str, optional): Country search. Defaults to "us".
         allow_to_get_answer (bool, optional): Getting answers from "People also ask" may take sometime to get due to each response, Allowing this may take around .2s - .1s for single response. Defaults to False.
+        
     """
 
     def dapatinJawabanbox(so: BeautifulSoup) -> dict[str]:
