@@ -620,6 +620,8 @@ def searchgoogle(q: str, language: str = "en", country: str = "us", allow_to_get
             "judul": i.text,
             "link": "https://google.com"+i.parent['href']
         })
+    
+    s.close()
 
     selesai = time.time()
 
