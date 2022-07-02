@@ -27,8 +27,6 @@ result.writeJSON("Cow.json")
 
 ## Translate
 
-# rapisearch
-
 rapisearch adalah library untuk mengambil data google
 
 ## Instalasi
