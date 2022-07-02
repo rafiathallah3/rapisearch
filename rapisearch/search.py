@@ -20,14 +20,14 @@ class SearchResults:
         with open(path, 'w') as f:
             f.write(json.dumps(self.Data, indent=4, sort_keys=True))
 
-def searchgoogle(q: str, hl: str = "en", gl: str = "us", allow_to_get_answer: bool = False, **kwargs) -> SearchResults:
+def searchgoogle(q: str, language: str = "en", country: str = "us", allow_to_get_answer: bool = False, **kwargs) -> SearchResults:
     """
     Args:
         q (str): query to search
-        hl (str, optional): Change google search language. Defaults to "en".
-        gl (str, optional): Country search. Defaults to "us".
+        language (str, optional): Change google search language. Defaults to "en".
+        country (str, optional): Country search. Defaults to "us".
         allow_to_get_answer (bool, optional): Getting answers from "People also ask" may take sometime to get due to each response, Allowing this may take around .2s - .1s for single response. Defaults to False.
-        
+
     """
 
     def dapatinJawabanbox(so: BeautifulSoup) -> dict[str]:
@@ -110,8 +110,8 @@ def searchgoogle(q: str, hl: str = "en", gl: str = "us", allow_to_get_answer: bo
         },
         "search_parameters": {
             "q": q,
-            "country": gl,
-            "language": hl,
+            "country": country,
+            "language": language,
         },
         "search_information": {
             "displayed_query": "",
@@ -136,7 +136,7 @@ def searchgoogle(q: str, hl: str = "en", gl: str = "us", allow_to_get_answer: bo
 
     mulai = time.time()
 
-    url = f"https://www.google.com/search?q={q}&hl={hl}&gl={gl}&aqs=chrome.0.69i59j69i61l2j69i60.792j0j7&sourceid=chrome&ie=UTF-8"
+    url = f"https://www.google.com/search?q={q}&hl={language}&gl={country}&aqs=chrome.0.69i59j69i61l2j69i60.792j0j7&sourceid=chrome&ie=UTF-8"
     resp = s.get(url)
     soup = BeautifulSoup(resp.content, 'lxml')
 
@@ -550,7 +550,7 @@ def searchgoogle(q: str, hl: str = "en", gl: str = "us", allow_to_get_answer: bo
 
         if allow_to_get_answer:
             #Baris ini lebih banyak memakan waktu, dikarenakan 1 request pertanyaan bisa memakan .2 detik, kemungkinan harus ditambahakan parameter untuk memperbolehkan dapatkan pertanyaan atau tidak, depending to it user
-            so = BeautifulSoup(s.get(f"https://www.google.com/search?q={soal.replace(' ', '+')}&hl={hl}&gl={gl}&aqs=chrome.0.69i59j69i61l2j69i60.792j0j7&sourceid=chrome&ie=UTF-8", headers=USER_AGENT).content, 'lxml') 
+            so = BeautifulSoup(s.get(f"https://www.google.com/search?q={soal.replace(' ', '+')}&hl={language}&gl={country}&aqs=chrome.0.69i59j69i61l2j69i60.792j0j7&sourceid=chrome&ie=UTF-8", headers=USER_AGENT).content, 'lxml') 
             data_jawaban = dapatinJawabanbox(so)
             
             if data_jawaban:
