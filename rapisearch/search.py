@@ -21,12 +21,17 @@ class SearchResults:
             f.write(json.dumps(self.Data, indent=4, sort_keys=True))
 
 def searchgoogle(q: str, hl: str = "en", gl: str = "us", allow_to_get_answer: bool = False, **kwargs) -> SearchResults:
+    """
+    Args:
+        q (str): query to search
+        hl (str, optional): Change google search language. Defaults to "en".
+        gl (str, optional): Country search. Defaults to "us".
+        allow_to_get_answer (bool, optional): Getting answers from "People also ask" may take sometime to get due to each response, Allowing this may take around .2s - .1s for single response. Defaults to False.
+    """
 
-    def dapatinJawabanbox(soup: BeautifulSoup) -> dict[str]:
-        soup = soup or soup
-
-        answerbox_element = soup.find("div", {"class": "V3FYCf NaC7Cf"}) or soup.find("div", {"class": "TrpAt kp-rgc"})
-        artiKata_element = soup.find("div", {"class": "lr_container yc7KLc mBNN3d"}) #Cek kalau jawaban itu arti dari kata
+    def dapatinJawabanbox(so: BeautifulSoup) -> dict[str]:
+        answerbox_element = so.find("div", {"class": "V3FYCf"}) or so.find("div", {"class": "TrpAt kp-rgc"})
+        artiKata_element = so.find("div", {"class": "lr_container yc7KLc mBNN3d"}) #Cek kalau jawaban itu arti dari kata
         jawaban = {}
 
         if answerbox_element:
@@ -34,7 +39,7 @@ def searchgoogle(q: str, hl: str = "en", gl: str = "us", allow_to_get_answer: bo
             tableJawaban_element = answerbox_element.select('[class="Crs1tb"] tbody > tr > *')
             description = answerbox_element.find("span", {"class": "hgKElc"}) or answerbox_element.find("div", {"class": "iKJnec"})
             # with open("index.html", 'w', encoding="utf-8") as f: #Ini untuk debug, kalau ada error waktu mengambil jawaban maka halaman jawaban akan di tulis
-            #     f.write(soup.prettify())
+            #     f.write(so.prettify())
 
             if listJawaban_element:
                 description = [i.text for i in listJawaban_element]
@@ -98,7 +103,6 @@ def searchgoogle(q: str, hl: str = "en", gl: str = "us", allow_to_get_answer: bo
 
     data = {
         "results_request": {
-            "status": "Success",
             "created_on": "",
             "google_url": "",
             "time_needed": 0
@@ -261,7 +265,7 @@ def searchgoogle(q: str, hl: str = "en", gl: str = "us", allow_to_get_answer: bo
         #List informasi lain yang ada di paling bawah
         i : Tag
         for i in informasi_halaman_element.select('[class*="LuVEUc XleQBd CGCvRb B03h3d"]'):
-            judul = i.parent.parent.find("div", {"class": "HnYYW"}).text if i.parent.parent.find("div", {"class": "HnYYW"}) else i.find("div", {"class": 'Ss2Faf zbA8Me qLYAZd q8U8x'}).text
+            judul = i.parent.parent.find("div", {"class": "HnYYW"}).text if i.parent.parent.find("div", {"class": "HnYYW"}) else i.find("div", {"class": 'Ss2Faf zbA8Me qLYAZd q8U8x'}).find("div", {"class": "VLkRKc"}).text
             elements = i.select('[class*="PZPZlf"]') or i.select('td[class="ellip"]')
             data["page_information"][judul.replace(" ", "_").lower()] = [{
                 "nama": c.text if c.name == "a" else c.find("a").text,
