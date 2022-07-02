@@ -2,7 +2,7 @@
 
 rapisearch is a python library for scraping google search
 
-# #Installation
+## Installation
 Download as a zip file or clone this repository
 ```bash
 git clone https://github.com/rafiathallah3/rapisearch.git
