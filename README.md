@@ -45,7 +45,7 @@ pip install requirements.txt
 ```py
 from rapisearch import searchgoogle
 
-result = searchgoogle("Anjing")
+result = searchgoogle("Anjing", language="id", country="id")
 print(result.Data["results_request"]["time_needed"])
 
 result.writeRawHTML("Anjing.html")
